@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abishekraj MN — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07070d;--bg2:#0f0f1a;--bg3:#16162a;--accent:#7effd4;--accent2:#b48eff;--text:#eeeef8;--muted:#5a5a7a;--border:rgba(255,255,255,0.06)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(126,255,212,0.4);border-radius:50%;pointer-events:none;z-index:9998;transition:all 0.12s ease}
+canvas{position:fixed;inset:0;z-index:0;opacity:0.35}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(7,7,13,0.75);backdrop-filter:blur(24px)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;letter-spacing:0.02em;color:var(--accent)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.65rem;color:var(--muted);text-decoration:none;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width 0.3s}
+.nav-links a:hover{color:var(--accent)} .nav-links a:hover::after{width:100%}
+.nav-status{display:flex;align-items:center;gap:0.5rem;font-size:0.62rem;color:var(--muted);letter-spacing:0.1em}
+.status-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:8rem 3rem 4rem;position:relative;z-index:10;gap:2rem;max-width:1100px;margin:0 auto}
+.eyebrow{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--accent)}
+.hero-name{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,5vw,4.5rem);line-height:1.0;letter-spacing:-0.03em;margin-bottom:0.5rem}
+.hero-name .ghost{-webkit-text-stroke:1px rgba(238,238,248,0.2);color:transparent}
+.hero-sub{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.6rem;color:var(--accent2);margin-bottom:1.5rem}
+.hero-bio{font-size:0.82rem;color:var(--muted);line-height:1.9;max-width:400px;margin-bottom:2.5rem}
+.hero-bio strong{color:var(--text);font-weight:400}
+.cta-row{display:flex;gap:0.75rem}
+.btn{padding:0.7rem 1.6rem;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-decoration:none;border-radius:1px;transition:all 0.3s;text-transform:uppercase;cursor:pointer;border:none}
+.btn-fill{background:var(--accent);color:#07070d} .btn-fill:hover{background:#a7ffdf;transform:translateY(-2px)}
+.btn-outline{border:1px solid var(--border);color:var(--muted)} .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-right{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border)}
+.stat-box{padding:1.5rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);transition:background 0.3s}
+.stat-box:last-child{border-bottom:none} .stat-box:hover{background:var(--bg3)}
+.stat-val{font-family:'Syne',sans-serif;font-weight:700;font-size:2.2rem;color:var(--text);line-height:1}
+.stat-val em{color:var(--accent);font-style:normal}
+.stat-key{font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.3rem}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--accent),transparent);animation:sd 2s ease infinite}
+@keyframes sd{0%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1);transform-origin:bottom}}
+.section{padding:6rem 3rem;position:relative;z-index:10;max-width:1100px;margin:0 auto}
+.s-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.6rem}
+.s-label::before{content:'';width:20px;height:1px;background:var(--accent)}
+.s-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:-0.025em;margin-bottom:3rem;line-height:1.2}
+.skills-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.sk{background:var(--bg);padding:1.75rem;transition:background 0.3s} .sk:hover{background:var(--bg3)}
+.sk-head{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:600;margin-bottom:1rem;color:var(--text)}
+.sk-tags{display:flex;flex-wrap:wrap;gap:0.35rem}
+.sk-tag{font-size:0.6rem;padding:0.2rem 0.6rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--muted);letter-spacing:0.06em;border-radius:1px}
+.xp-list{display:flex;flex-direction:column}
+.xp-item{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--border);padding:2rem 0;opacity:0;transform:translateY(20px);transition:all 0.6s ease}
+.xp-item.vis{opacity:1;transform:translateY(0)}
+.xp-meta{padding-right:2rem;border-right:1px solid var(--border)}
+.xp-date{font-size:0.62rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:0.5rem}
+.xp-co{font-size:0.75rem;color:var(--muted);line-height:1.5}
+.xp-body{padding-left:2rem}
+.xp-role{font-family:'Syne',sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:0.5rem}
+.xp-desc{font-size:0.78rem;color:var(--muted);line-height:1.8}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.proj{background:var(--bg);padding:2.5rem;position:relative;overflow:hidden;opacity:0;transform:translateY(20px);transition:all 0.6s ease}
+.proj.vis{opacity:1;transform:translateY(0)} .proj:hover{background:var(--bg3)}
+.proj::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform 0.5s}
+.proj:hover::after{transform:scaleX(1)}
+.proj-num{font-size:0.58rem;color:var(--muted);letter-spacing:0.15em;margin-bottom:1.25rem}
+.proj-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:0.75rem;line-height:1.3}
+.proj-desc{font-size:0.77rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem}
+.proj-pub{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.62rem;color:var(--accent);border:1px solid rgba(126,255,212,0.2);padding:0.25rem 0.75rem;border-radius:1px}
+.edu-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.edu{background:var(--bg);padding:2rem;transition:background 0.3s} .edu:hover{background:var(--bg3)}
+.edu-yr{font-size:0.62rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:0.6rem}
+.edu-deg{font-family:'Syne',sans-serif;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem;line-height:1.3}
+.edu-inst{font-size:0.72rem;color:var(--muted);margin-bottom:1rem;line-height:1.5}
+.edu-score{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700}
+.edu-score small{font-size:0.65rem;color:var(--muted);font-family:'DM Mono',monospace;font-weight:300}
+.contact-wrap{border:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr}
+.contact-left{padding:3rem;border-right:1px solid var(--border)}
+.contact-left h2{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;letter-spacing:-0.03em;margin-bottom:0.75rem}
+.contact-left p{font-size:0.78rem;color:var(--muted);line-height:1.8;margin-top:1rem}
+.contact-right{padding:3rem;display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.contact-item{display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;background:var(--bg2);transition:background 0.3s;cursor:pointer}
+.contact-item:hover{background:var(--bg3)}
+.ci-icon{width:32px;height:32px;background:rgba(126,255,212,0.08);border:1px solid rgba(126,255,212,0.15);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-icon svg{width:14px;height:14px;fill:var(--accent)}
+.ci-label{font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2rem}
+.ci-val{font-size:0.8rem;color:var(--text)}
+footer{border-top:1px solid var(--border);padding:1.75rem 3rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10}
+footer p{font-size:0.62rem;color:var(--muted);letter-spacing:0.1em}
+.footer-accent{color:var(--accent)}
+.div{height:1px;background:var(--border);position:relative;z-index:10}
+.rev{opacity:0;transform:translateY(25px);transition:all 0.7s ease} .rev.vis{opacity:1;transform:translateY(0)}
+.copied{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#07070d;font-size:0.65rem;letter-spacing:0.1em;padding:0.5rem 1.25rem;border-radius:1px;z-index:9999;opacity:0;transition:opacity 0.3s} .copied.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+<canvas id="c"></canvas>
+<div class="copied" id="toast">EMAIL COPIED ✓</div>
+<nav>
+  <div class="logo">ABISHEKRAJ MN</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li><li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-status"><div class="status-dot"></div>Open to Work</div>
+</nav>
+<section class="hero" id="about">
+  <div>
+    <div class="eyebrow">B.Tech CSE · SRM IST · 2025</div>
+    <div class="hero-name">Abishek<br><span class="ghost">raj MN</span></div>
+    <div class="hero-sub">Developer &amp; Analyst</div>
+    <p class="hero-bio">Building <strong>data pipelines</strong>, <strong>ML systems</strong> &amp; <strong>AI applications</strong>.<br>Published researcher in multimodal AI.<br>Based in Chennai, Tamil Nadu.</p>
+    <div class="cta-row"><a href="#projects" class="btn btn-fill">View Work</a><a href="#contact" class="btn btn-outline">Contact Me</a></div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-box"><div class="stat-val">8.<em>6</em></div><div class="stat-key">CGPA — SRM Institute</div></div>
+    <div class="stat-box"><div class="stat-val"><em>3</em>+</div><div class="stat-key">Internships Completed</div></div>
+    <div class="stat-box"><div class="stat-val"><em>2</em></div><div class="stat-key">Research Projects</div></div>
+    <div class="stat-box"><div class="stat-val"><em>1</em>×</div><div class="stat-key">Published — JISEM 2025</div></div>
+  </div>
+  <div class="scroll-hint" style="position:absolute;bottom:1rem;left:50%"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+<div class="div"></div>
+<div class="section" id="skills">
+  <div class="s-label rev">Capabilities</div><div class="s-title rev">Technical Skills</div>
+  <div class="skills-wrap rev">
+    <div class="sk"><div class="sk-head">Languages</div><div class="sk-tags"><span class="sk-tag">Python</span><span class="sk-tag">SQL</span><span class="sk-tag">HTML</span><span class="sk-tag">JavaScript</span></div></div>
+    <div class="sk"><div class="sk-head">Frameworks &amp; Tools</div><div class="sk-tags"><span class="sk-tag">Django</span><span class="sk-tag">Flask</span><span class="sk-tag">REST APIs</span><span class="sk-tag">Git</span><span class="sk-tag">Linux/CLI</span><span class="sk-tag">CI/CD</span></div></div>
+    <div class="sk"><div class="sk-head">Databases</div><div class="sk-tags"><span class="sk-tag">MySQL</span><span class="sk-tag">PostgreSQL</span><span class="sk-tag">MongoDB</span><span class="sk-tag">NoSQL</span></div></div>
+    <div class="sk"><div class="sk-head">Data &amp; ML</div><div class="sk-tags"><span class="sk-tag">Data Cleaning</span><span class="sk-tag">Feature Eng.</span><span class="sk-tag">SMOTE</span><span class="sk-tag">RMSE</span><span class="sk-tag">Statistics</span><span class="sk-tag">Excel</span></div></div>
+    <div class="sk"><div class="sk-head">AI &amp; Research</div><div class="sk-tags"><span class="sk-tag">RAG</span><span class="sk-tag">Multimodal AI</span><span class="sk-tag">ML Pipelines</span><span class="sk-tag">IoT</span></div></div>
+    <div class="sk"><div class="sk-head">Certifications</div><div class="sk-tags"><span class="sk-tag">Google Cloud</span><span class="sk-tag">Python</span><span class="sk-tag">SQL</span><span class="sk-tag">IoT</span><span class="sk-tag">GoLang — NASDAQ</span></div></div>
+  </div>
+</div>
+<div class="div"></div>
+<div class="section" id="experience">
+  <div class="s-label rev">Career</div><div class="s-title rev">Work Experience</div>
+  <div class="xp-list">
+    <div class="xp-item"><div class="xp-meta"><div class="xp-date">JUL 2025 — DEC 2025</div><div class="xp-co">Kodnest Technologies Pvt. Ltd.</div></div><div class="xp-body"><div class="xp-role">Software Development Intern</div><div class="xp-desc">Built data cleaning and preprocessing pipelines using Python and SQL. Performed fault identification, log analysis, ticket routing and escalation within agile workflows. Collaborated with cross-functional engineering teams on debugging and code maintenance.</div></div></div>
+    <div class="xp-item"><div class="xp-meta"><div class="xp-date">OCT 2024 — JAN 2025</div><div class="xp-co">Corizo Edutech Private Limited</div></div><div class="xp-body"><div class="xp-role">Business Analyst Intern</div><div class="xp-desc">Conducted market research and competitor analysis to identify business opportunities. Prepared data-backed proposals and presentations for strategic partnership development, collaborating with cross-functional stakeholders.</div></div></div>
+    <div class="xp-item"><div class="xp-meta"><div class="xp-date">AUG 2023 — OCT 2023</div><div class="xp-co">Shiash Info Tech Solution Pvt. Ltd.</div></div><div class="xp-body"><div class="xp-role">Data Analyst Intern</div><div class="xp-desc">Executed end-to-end data processing — collection, cleaning, analysis and visualization using Excel. Generated actionable insights that supported strategic decision-making and optimized business processes.</div></div></div>
+  </div>
+</div>
+<div class="div"></div>
+<div class="section" id="projects">
+  <div class="s-label rev">Work</div><div class="s-title rev">Featured Projects</div>
+  <div class="proj-grid">
+    <div class="proj"><div class="proj-num">01 / RESEARCH &amp; AI</div><div class="proj-title">RAG &amp; Multimodal AI for Virtual Research Assistants</div><div class="proj-desc">Engineered an AI-powered assistant integrating Retrieval-Augmented Generation with multimodal processing (text, images, graphs, tables) via REST API interfaces. Designed session-aware personalized outputs using user interaction history.</div><div class="sk-tags" style="margin-bottom:1rem"><span class="sk-tag">Python</span><span class="sk-tag">RAG</span><span class="sk-tag">REST API</span><span class="sk-tag">Multimodal AI</span></div><div class="proj-pub">📄 Published — JISEM 2025</div></div>
+    <div class="proj"><div class="proj-num">02 / ML SYSTEM</div><div class="proj-title">AQI Genius — AI-Enhanced Air Quality Intelligence System</div><div class="proj-desc">Built an ML-based air quality forecasting system using IoT sensor data. Applied SMOTE for class balancing and evaluated with RMSE and R² metrics. Designed end-to-end preprocessing and anomaly detection pipeline across multi-source data.</div><div class="sk-tags" style="margin-bottom:1rem"><span class="sk-tag">Python</span><span class="sk-tag">ML</span><span class="sk-tag">IoT</span><span class="sk-tag">SMOTE</span><span class="sk-tag">Data Pipeline</span></div><div class="proj-pub">🌐 IoT + ML Integration</div></div>
+  </div>
+</div>
+<div class="div"></div>
+<div class="section" id="education">
+  <div class="s-label rev">Background</div><div class="s-title rev">Education</div>
+  <div class="edu-row rev">
+    <div class="edu"><div class="edu-yr">2021 — 2025</div><div class="edu-deg">B.Tech — Computer Science &amp; Engineering</div><div class="edu-inst">SRM Institute of Science and Technology</div><div class="edu-score">8.6 <small>CGPA</small></div></div>
+    <div class="edu"><div class="edu-yr">2020 — 2021</div><div class="edu-deg">Higher Secondary Certificate</div><div class="edu-inst">Sri Vijay Vidyalaya Matric Hr. Sec. School, Hosur</div><div class="edu-score">80% <small>HSC</small></div></div>
+    <div class="edu"><div class="edu-yr">2018 — 2019</div><div class="edu-deg">Secondary School Certificate</div><div class="edu-inst">St. Joseph Matriculation Hr. Sec. School, Hosur</div><div class="edu-score">71% <small>SSC</small></div></div>
+  </div>
+</div>
+<div class="div"></div>
+<div class="section" id="contact">
+  <div class="s-label rev">Connect</div><div class="s-title rev">Get In Touch</div>
+  <div class="contact-wrap rev">
+    <div class="contact-left"><h2>Let's work<br>together.</h2><p>Open to full-time roles, internships, and collaborations in software engineering, data analytics, and AI/ML.</p></div>
+    <div class="contact-right">
+      <div class="contact-item" onclick="copyEmail()"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><div><div class="ci-label">Email — Click to copy</div><div class="ci-val">abishekmn5599@gmail.com</div></div></div>
+      <div class="contact-item"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></div><div><div class="ci-label">Phone</div><div class="ci-val">+91 9080404029</div></div></div>
+      <div class="contact-item"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div><div class="ci-label">Location</div><div class="ci-val">Chennai, Tamil Nadu, India</div></div></div>
+    </div>
+  </div>
+</div>
+<footer><p>© 2025 <span class="footer-accent">Abishekraj MN</span></p><div class="status-dot"></div><p>B.Tech CSE · SRM IST · Open to Work</p></footer>
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx-4+'px';cur.style.top=my-4+'px'});
+function ar(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx-18+'px';ring.style.top=ry-18+'px';requestAnimationFrame(ar)}ar();
+document.querySelectorAll('a,button,.contact-item,.btn').forEach(el=>{el.addEventListener('mouseenter',()=>{ring.style.transform='scale(1.8)';ring.style.borderColor='rgba(126,255,212,0.7)'});el.addEventListener('mouseleave',()=>{ring.style.transform='scale(1)';ring.style.borderColor='rgba(126,255,212,0.4)'})});
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}resize();
+window.addEventListener('resize',resize);
+for(let i=0;i<60;i++)particles.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.3,o:Math.random()*.4+.1});
+function dp(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(126,255,212,${p.o})`;ctx.fill()});for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(126,255,212,${.06*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke()}}requestAnimationFrame(dp)}dp();
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.rev,.xp-item,.proj').forEach(el=>obs.observe(el));
+document.querySelectorAll('.xp-item').forEach((el,i)=>el.style.transitionDelay=i*.12+'s');
+document.querySelectorAll('.proj').forEach((el,i)=>el.style.transitionDelay=i*.1+'s');
+function copyEmail(){navigator.clipboard.writeText('abishekmn5599@gmail.com');const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+</script>
+</body>
+</html>
